@@ -21,6 +21,7 @@ jobs:
       id-token: write
     env:
       REPOSITORY: ${{ secrets.DOCKERHUB_REPO }}
+      PLATFORMS: linux/amd64,linux/arm64,linux/arm/v7
     strategy:
       matrix:
         architecture: [arm, arm64, amd64]
@@ -70,4 +71,4 @@ jobs:
             ${{ env.REPOSITORY }}:${{ env.version }}
             ${{ env.REPOSITORY }}:latest
           labels: ${{ steps.meta.outputs.labels }}
-          platforms: ${{ matrix.architecture }}
+          platforms: ${{ env.PLATFORMS }}

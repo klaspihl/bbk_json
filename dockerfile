@@ -1,14 +1,14 @@
 FROM ubuntu
-ARG TARGETARCH
+ARG TARGETPLATFORM
 
-RUN echo "Target architecture: ${TARGETARCH}"
+RUN echo "Target platform: ${TARGETPLATFORM}"
 RUN mkdir -p /app/
 RUN apt-get update && apt-get install -y curl
-RUN if [ "${TARGETARCH}" = "arm" ]; then \
+RUN if [ "${TARGETPLATFORM}" = "linux/arm/v7" ]; then \
         curl https://frontend.bredbandskollen.se/download/bbk_cli_linux_armhf-1.0 --output /app/bbk; \
-    elif [ "${TARGETARCH}" = "arm64" ]; then \
+    elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
         curl https://frontend.bredbandskollen.se/download/bbk_cli_linux_arm64-1.0 --output /app/bbk; \
-    elif [ "${TARGETARCH}" = "amd64" ]; then \
+    elif [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
         curl https://frontend.bredbandskollen.se/download/bbk_cli_linux_amd64-1.0 --output /app/bbk; \
     fi
 
