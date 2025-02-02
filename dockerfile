@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y curl
 RUN if [ "${TARGETPLATFORM}" = "linux/arm/v7" ]; then \
         curl https://frontend.bredbandskollen.se/download/bbk_cli_linux_armhf-1.0 --output /app/bbk; \
     elif [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
-        curl https://frontend.bredbandskollen.se/download/bbk_cli_linux_arm64-1.0 --output /app/bbk; \
+        curl https://frontend.bredbandskollen.se/download/bbk_cli_linux_aarch64-1.0 --output /app/bbk; \
     elif [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
         curl https://frontend.bredbandskollen.se/download/bbk_cli_linux_amd64-1.0 --output /app/bbk; \
     fi
