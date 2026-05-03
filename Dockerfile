@@ -18,8 +18,8 @@ FROM alpine:3.22
 RUN apk add --update --no-cache gcompat libstdc++ tzdata \
     && ln -sf /usr/local/bin/bbk_cli /usr/local/bin/bbk
 
-COPY --from=bbkcli --chmod=0775 ["/bbk_cli", "/usr/local/bin/"]
-COPY --from=bbkcli --chmod=0755 ["/bbk_cli_license", "/usr/local/src/bbk/LICENSE.txt"]
+COPY --from=downloader --chmod=0775 ["/bbk_cli", "/usr/local/bin/"]
+COPY --from=downloader --chmod=0755 ["/bbk_cli_license", "/usr/local/src/bbk/LICENSE.txt"]
 
 ARG BBKCLI_VERSION
 ARG TARGETPLATFORM
