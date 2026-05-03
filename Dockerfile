@@ -9,7 +9,7 @@ RUN case ${TARGETPLATFORM} in \
          "linux/386")    BBKCLI_ARCH=i386   ;; \
     esac \
     && wget -q https://frontend.bredbandskollen.se/download/bbk_cli_linux_${BBKCLI_ARCH:-amd64}-${BBKCLI_VERSION} -O /bbk_cli
-ADD ["https://raw.githubusercontent.com/dotse/bbk/refs/heads/master/LICENSE", "/app/bbk_license"]
+ADD ["https://raw.githubusercontent.com/dotse/bbk/refs/heads/master/LICENSE", "/bbk_cli_license"]
 
 
 
