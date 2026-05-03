@@ -16,3 +16,11 @@ This container returns a Json with current upload, download and latency
 ```cmd
 docker run --rm  --name bbk klaspihl/bbk_json
 ```
+
+## Version history
+
+### 2026-05-03 Slim container size by using debian slim
+
+### 2025-02-02 Multiple cpu arch
+
+### 2024-+1-27 Initial

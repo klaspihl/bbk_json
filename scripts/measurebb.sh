@@ -5,4 +5,4 @@ FILE="/app/bbk.log"
 	UPLOAD=$(awk '{print $3}' $FILE)
 	PING=$(awk '{print $1}' $FILE)
 	DOWNLOAD=$(awk '{print $2}' $FILE)
-echo "{'Download': $DOWNLOAD, 'Upload': $UPLOAD, 'Ping': $PING}"
+  echo -e "{\n    \"Download\": $DOWNLOAD,\n    \"Upload\": $UPLOAD,\n    \"Ping\": $PING\n}"
