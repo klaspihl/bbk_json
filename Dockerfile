@@ -1,17 +1,33 @@
-FROM debian:trixie-slim AS downloader
+ARG BBKCLI_VERSION=1.2.2
+FROM alpine:3.22 AS downloader
+ARG BBKCLI_VERSION
 ARG TARGETPLATFORM
-RUN apt-get update && apt-get install -y curl
-RUN mkdir -p /app/
-RUN if [ "${TARGETPLATFORM}" = "linux/arm64" ]; then \
-        curl -L https://frontend.bredbandskollen.se/download/bbk_cli_linux_aarch64-1.2.2 --output /app/bbk; \
-    elif [ "${TARGETPLATFORM}" = "linux/amd64" ]; then \
-        curl -L https://frontend.bredbandskollen.se/download/bbk_cli_linux_amd64-1.2.2 --output /app/bbk; \
-    fi
-RUN chmod +x /app/bbk
+RUN case ${TARGETPLATFORM} in \
+         "linux/amd64")  BBKCLI_ARCH=amd64  ;; \
+         "linux/arm64")  BBKCLI_ARCH=aarch64  ;; \
+         "linux/arm/v7") BBKCLI_ARCH=armhf  ;; \
+         "linux/386")    BBKCLI_ARCH=i386   ;; \
+    esac \
+    && wget -q https://frontend.bredbandskollen.se/download/bbk_cli_linux_${BBKCLI_ARCH:-amd64}-${BBKCLI_VERSION} -O /bbk_cli
+ADD ["https://raw.githubusercontent.com/dotse/bbk/refs/heads/master/LICENSE", "/app/bbk_license"]
 
-FROM debian:trixie-slim
+
+
+
+FROM alpine:3.22
+RUN apk add --update --no-cache gcompat libstdc++ tzdata \
+    && ln -sf /usr/local/bin/bbk_cli /usr/local/bin/bbk
+
+COPY --from=bbkcli --chmod=0775 ["/bbk_cli", "/usr/local/bin/"]
+COPY --from=bbkcli --chmod=0755 ["/bbk_cli_license", "/usr/local/src/bbk/LICENSE.txt"]
+
+ARG BBKCLI_VERSION
 ARG TARGETPLATFORM
-COPY --from=downloader /app/bbk /app/bbk
+ENV BBKCLI_VERSION=${BBKCLI_VERSION}
+ENV PLATFORM_ARCH=${TARGETPLATFORM}
+ENV TZ=Europe/Stockholm
+
+COPY --from=downloader /bbk_cli /app/bbk
 ADD scripts/ /app/
 RUN chmod +x /app/bbk /app/measurebb.sh
 CMD bash -c /app/measurebb.sh
