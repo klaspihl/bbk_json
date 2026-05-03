@@ -30,4 +30,4 @@ ENV TZ=Europe/Stockholm
 COPY --from=downloader /bbk_cli /app/bbk
 ADD scripts/ /app/
 RUN chmod +x /app/bbk /app/measurebb.sh
-CMD bash -c /app/measurebb.sh
+CMD sh /app/measurebb.sh
