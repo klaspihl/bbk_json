@@ -1,5 +1,5 @@
-ARG BBKCLI_VERSION=1.2.2
-FROM alpine:3.22 AS downloader
+ARG BBKCLI_VERSION=5.1.0
+FROM alpine:latest AS downloader
 ARG BBKCLI_VERSION
 ARG TARGETPLATFORM
 RUN case ${TARGETPLATFORM} in \
@@ -9,12 +9,12 @@ RUN case ${TARGETPLATFORM} in \
          "linux/386")    BBKCLI_ARCH=i386   ;; \
     esac \
     && wget -q https://frontend.bredbandskollen.se/download/bbk_cli_linux_${BBKCLI_ARCH:-amd64}-${BBKCLI_VERSION} -O /bbk_cli
-ADD ["https://raw.githubusercontent.com/dotse/bbk/refs/heads/master/LICENSE", "/bbk_cli_license"]
+ADD ["https://gitlab.com/internetstiftelsen-oss/bredbandskollen/-/raw/main/LICENSE", "/bbk_cli_license"]
 
 
 
 
-FROM alpine:3.22
+FROM alpine:latest
 RUN apk add --update --no-cache gcompat libstdc++ tzdata \
     && ln -sf /usr/local/bin/bbk_cli /usr/local/bin/bbk
 
